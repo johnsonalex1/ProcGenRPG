@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../Teamwork/Teamwork/Assets/Game Assets/Scripts/Puzzle_Scripts/LockBox.cs">
+    <Files>
+      <File FileName="../../Teamwork/Teamwork/Assets/Game Assets/Scripts/PlayerScripts/ThirdPersonControl.cs" Line="67" Column="77" />
+      <File FileName="../../Teamwork/Teamwork/Assets/Game Assets/Scripts/Puzzle_Scripts/LockBox.cs" Line="67" Column="48" />
+      <File FileName="../../Teamwork/Teamwork/Assets/Game Assets/Scripts/Puzzle_Scripts/Switch.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
