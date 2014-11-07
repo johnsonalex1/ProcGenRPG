@@ -11,6 +11,9 @@ public class GrassyPathGenerator : MapGenerator {
 	public int maxFieldSize = 6;
 	public int minFieldSize = 4;
 
+	public GrassyPathGenerator(Area a, TileSet tiles) : base(a,tiles) {
+	}
+
 	protected override void generateGround(int length) {
 		int tempLength = (length % 4) + 3;
 		bool left;
@@ -50,17 +53,17 @@ public class GrassyPathGenerator : MapGenerator {
 			}
 			if (left && direction) {
 				// spawns a tile beside the one going left, to make the path 2 blocks wide
-				SpawnTile(cursorX, cursorZ + tiles[0].size, 0);
-				cursorX += tiles[0].size;
+				SpawnTile(cursorX, cursorZ + tileSet.tiles[0].size, 0);
+				cursorX += tileSet.tiles[0].size;
 			} else if (!left && direction) {
 				// spawns a tile beside the one going right, to make the path 2 blocks wide
-				SpawnTile(cursorX, cursorZ + tiles[0].size, 0);
-				cursorX -= tiles[0].size;
+				SpawnTile(cursorX, cursorZ + tileSet.tiles[0].size, 0);
+				cursorX -= tileSet.tiles[0].size;
 			}
 			if (up && !direction) {
 				// spawns a tile beside the one going up, to make the path 2 blocks wide
-				SpawnTile(cursorX + tiles[0].size, cursorZ, 0);
-				cursorZ += tiles[0].size;
+				SpawnTile(cursorX + tileSet.tiles[0].size, cursorZ, 0);
+				cursorZ += tileSet.tiles[0].size;
 			}
 			direction = Random.value < 0.5f;
 			spawnedEnemy = Random.value < 0.25f;
@@ -75,23 +78,23 @@ public class GrassyPathGenerator : MapGenerator {
 			for(int i = 0; i < size; i++) {
 				for(int j = 0; j < size; j++) {
 					SpawnTile(localX, localZ, 0);
-					localX += tiles[0].size;
+					localX += tileSet.tiles[0].size;
 				}
-				localZ += tiles[0].size;
+				localZ += tileSet.tiles[0].size;
 				localX = cursorX;
 			}
-			cursorX += (size - 1) * tiles[0].size;
+			cursorX += (size - 1) * tileSet.tiles[0].size;
 			cursorZ = localZ;
 		} else {
 			for(int i = 0; i < size; i++) {
 				for(int j = 0; j < size; j++) {
 					SpawnTile(localX, localZ, 0);
-					localX -= tiles[0].size;
+					localX -= tileSet.tiles[0].size;
 				}
-				localZ -= tiles[0].size;
+				localZ -= tileSet.tiles[0].size;
 				localX = cursorX;
 			}
-			cursorX -= (size - 1) * tiles[0].size;
+			cursorX -= (size - 1) * tileSet.tiles[0].size;
 			cursorZ = localZ;
 		}
 	}
@@ -121,52 +124,48 @@ public class GrassyPathGenerator : MapGenerator {
 		//Portal Generation Code
 		foreach(Tile t in ground) {
 			if(!hasDoneUp && ground.IndexOf(t) > ground.Count / Random.Range(2,5) && !TileExists(t.X, t.Z + t.size*2)){
-				if(ForceTile(t.X, t.Z + t.size, 2)) {
-					GameObject[] items = GameObject.FindGameObjectsWithTag("Portal");
-					foreach(GameObject g in items) {
-						if(g.GetComponent<Tile>().name.Equals("")) {
-							g.GetComponent<Tile>().name = "UpPortal";
-							break;
-						}
+				ForceTile(t.X, t.Z + t.size, 2);
+				GameObject[] items = GameObject.FindGameObjectsWithTag("Portal");
+				foreach(GameObject g in items) {
+					if(g.GetComponent<Tile>().name.Equals("")) {
+						g.GetComponent<Tile>().name = "UpPortal";
+						break;
 					}
-					hasDoneUp = true;
 				}
+				hasDoneUp = true;
 			}
 			if(!hasDoneDown && ground.IndexOf(t) > ground.Count / Random.Range(2,5) && !TileExists(t.X, t.Z - t.size*2)){
-				if(ForceTile(t.X, t.Z - t.size, 2)) {
-					GameObject[] items = GameObject.FindGameObjectsWithTag("Portal");
-					foreach(GameObject g in items) {
-						if(g.GetComponent<Tile>().name.Equals("")) {
-							g.GetComponent<Tile>().name = "DownPortal";
-							break;
-						}
+				ForceTile(t.X, t.Z - t.size, 2);
+				GameObject[] items = GameObject.FindGameObjectsWithTag("Portal");
+				foreach(GameObject g in items) {
+					if(g.GetComponent<Tile>().name.Equals("")) {
+						g.GetComponent<Tile>().name = "DownPortal";
+						break;
 					}
-					hasDoneDown = true;
 				}
+				hasDoneDown = true;
 			}
 			if(!hasDoneRight && ground.IndexOf(t) > ground.Count / Random.Range(2,5) && !TileExists(t.X + t.size*2, t.Z)){
-				if(ForceTile(t.X + t.size, t.Z, 2)) {
-					GameObject[] items = GameObject.FindGameObjectsWithTag("Portal");
-					foreach(GameObject g in items) {
-						if(g.GetComponent<Tile>().name.Equals("")) {
-							g.GetComponent<Tile>().name = "RightPortal";
-							break;
-						}
+				ForceTile(t.X + t.size, t.Z, 2);
+				GameObject[] items = GameObject.FindGameObjectsWithTag("Portal");
+				foreach(GameObject g in items) {
+					if(g.GetComponent<Tile>().name.Equals("")) {
+						g.GetComponent<Tile>().name = "RightPortal";
+						break;
 					}
-					hasDoneRight = true;
 				}
+				hasDoneRight = true;
 			}
 			if(!hasDoneLeft && ground.IndexOf(t) > ground.Count / Random.Range(2,5) && !TileExists(t.X - t.size*2, t.Z)){
-				if(ForceTile(t.X - t.size, t.Z, 2)) {
-					GameObject[] items = GameObject.FindGameObjectsWithTag("Portal");
-					foreach(GameObject g in items) {
-						if(g.GetComponent<Tile>().name.Equals("")) {
-							g.GetComponent<Tile>().name = "LeftPortal";
-							break;
-						}
+				ForceTile(t.X - t.size, t.Z, 2);
+				GameObject[] items = GameObject.FindGameObjectsWithTag("Portal");
+				foreach(GameObject g in items) {
+					if(g.GetComponent<Tile>().name.Equals("")) {
+						g.GetComponent<Tile>().name = "LeftPortal";
+						break;
 					}
-					hasDoneLeft = true;
 				}
+				hasDoneLeft = true;
 			}
 		}
 	}

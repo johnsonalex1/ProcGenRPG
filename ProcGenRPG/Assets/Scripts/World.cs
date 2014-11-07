@@ -49,18 +49,18 @@ public class World : MonoBehaviour {
 		return name;
 	}
 
-	public static TileSet getTileSetByName(string name) {
+	/*public static TileSet getTileSetByName(string name) {
 		string nname = name.Replace(" ", "").ToLower();
 		foreach(TileSet a in TileSets) {
-			if(a.generatorName.Replace(" ", "").ToLower().Equals(nname))
+			if(a.generatorType.Replace(" ", "").ToLower().Equals(nname))
 				return a;
 		}
 		return null;
-	}
+	}*/
 	
-	private static void generateNewArea(string mapType) {
-		Area area = new Area(mapType);
-		area.setUp(new Area(mapType));
+	private static void generateNewArea(TileSet tiles) {
+		Area area = new Area(tiles);
+		area.setUp(new Area(tiles));
 		area.Init();
 		currentArea = area;
 		data.SetArea(currentArea.Data);
@@ -94,7 +94,7 @@ public class World : MonoBehaviour {
 		if(loadData)
 			load();
 		else
-			generateNewArea(TileSets[1].generatorName);
+			generateNewArea(TileSets[1]);
 	}
 	
 	// Update is called once per frame

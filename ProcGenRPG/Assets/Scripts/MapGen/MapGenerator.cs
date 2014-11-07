@@ -5,8 +5,8 @@ using System.Reflection;
 public class MapGenerator {
 
 	private static readonly int MaxLength = 1000;
-	private static List<System.Type> Generators;
-	private static string generatorNameString;
+	//private static List<System.Type> Generators;
+	//private static string generatorNameString;
 	private Area a;
 
 	/**
@@ -18,7 +18,7 @@ public class MapGenerator {
 	 * simple code which is easy to maintain!! So now, to make any new generator, we simply
 	 * extend, and then this stuff here makes sure we can access it easily!
 	 */
-	public static MapGenerator getNewGeneratorByName(string generatorName) {
+	/*public static MapGenerator getNewGeneratorByName(string generatorName) {
 		TileSet tiles = World.getTileSetByName(generatorName);
 		string gName = generatorName.Replace(" ", "").ToLower();
 	
@@ -38,18 +38,27 @@ public class MapGenerator {
 		generator.setTiles(tiles.tiles);
 		generator.setEnemies(tiles.enemies);
 		return generator;
-	}
+	}*/
 
-	public void SetArea(Area a) {
-		this.a = a;
-	}
-
-	protected void SpawnEnemy(int enemyType, float x, float y) {
-		GameObject.Instantiate(enemies[enemyType], new Vector3(x, 0.5f, y), Quaternion.identity);
+	/**
+	 * Returns a mapGenerator of the type described by the TileSet instantiated to the given area
+	 * This has no benefits to constructing the generator on your own, but handles the switching on
+	 * the tileSet generator type in one centralized location, and so ought to be used nonetheless
+	 * whenever instantiating with these parameters.
+	 */
+	public static MapGenerator getMapGenerator(Area a, TileSet tiles) {
+		switch (tiles.generatorType) {
+		case GeneratorTypes.OVERWORLD:
+			return new GrassyPathGenerator (a, tiles);
+		case GeneratorTypes.DUNGEON:
+			return new DungeonGenerator(a, tiles);
+		default:
+			return new GrassyPathGenerator(a,tiles);
+		}
 	}
 	
 	//static constructor, this gets all classes in the assembly that are children of MapGenerator
-	static MapGenerator() {
+	/*static MapGenerator() {
 		generatorNameString = "";
 		System.Type type = typeof(MapGenerator);
 		Generators = new List<System.Type>();
@@ -61,26 +70,29 @@ public class MapGenerator {
 		}
 		if(generatorNameString.EndsWith(", "))
 			generatorNameString = generatorNameString.Substring(0,generatorNameString.Length - 2);
-	}
+	}*/
 
 	
-	public List<Tile> tiles;
-	
-	public List<Enemy> enemies;
+	public TileSet tileSet;
 
 	protected List<Tile> spawnedTiles;
 
 	protected List<Tile> spawnedWalls;
 
-	/**
-	 * Constructor is not used in order to make subclasses of MapGenerator exceedingly simply and clean to implement
-	 */
-	public void setTiles(List<Tile> tiles) {
-		this.tiles = tiles;
+	public MapGenerator(Area a, TileSet tiles) {
+		this.a = a;
+		tileSet = tiles;
 	}
 
-	public void setEnemies(List<Enemy> enemies) {
-		this.enemies = enemies;
+	public void SetArea(Area a) {
+		this.a = a;
+	}
+
+	/**
+	 * Spawn an enemy of the given type at the given coordinates (x,y) converted to (x,z)
+	 */
+	protected void SpawnEnemy(int enemyType, float x, float y) {
+		GameObject.Instantiate(tileSet.enemyTypes[enemyType], new Vector3(x, 0.5f, y), Quaternion.identity);
 	}
 
 	public void InitWithData(AreaData data) {
@@ -121,12 +133,17 @@ public class MapGenerator {
 		return spawnedTiles.Count;
 	}
 
+	/*
+	 * checks to see if a tile is at the given coordinates
+	 */
 	protected bool TileExists(float x, float z) {
+		//see if tiles are at coordinates by checking an absolute value difference of the two components
 		foreach(Tile t in spawnedTiles) {
 			if(Mathf.Abs(t.X - x) < 2 && Mathf.Abs(t.Z - z) < 2) {
 				return true;
 			}
 		}
+		//see if walls are at coordinates by the same method
 		foreach(Tile t in spawnedWalls) {
 			if(Mathf.Abs(t.X - x) < 2 && Mathf.Abs(t.Z - z) < 2) {
 				return true;
@@ -134,7 +151,14 @@ public class MapGenerator {
 		}
 		return false;
 	}
-	
+
+	/**
+	 * spawn a tile of the given type at the given coordinates
+	 * 
+	 * note: this method does perform a check of TileExists(x,z), and returns true or false
+	 * based on this method.  Use ForceTile if you need the tile to be placed regardless of the precence
+	 * of a previously placed tile.
+	 */
 	protected bool SpawnTile(float x, float z, int type) {
 		foreach(Tile t in spawnedTiles) {
 			t.Init();
@@ -144,11 +168,11 @@ public class MapGenerator {
 		}
 		if(!TileExists(x, z)) {
 			if(type == 0) {
-				spawnedTiles.Add((Tile)GameObject.Instantiate(tiles[type], new Vector3(x, 0, z), Quaternion.identity));
+				spawnedTiles.Add((Tile)GameObject.Instantiate(tileSet.tiles[type], new Vector3(x, 0, z), Quaternion.identity));
 			}  else if (type == 1) {
-				spawnedWalls.Add((Tile)GameObject.Instantiate(tiles[type], new Vector3(x, 3.4f, z), Quaternion.identity));
+				spawnedWalls.Add((Tile)GameObject.Instantiate(tileSet.tiles[type], new Vector3(x, 3.4f, z), Quaternion.identity));
 			}  else {
-				spawnedWalls.Add((Tile)GameObject.Instantiate(tiles[type], new Vector3(x, 0, z), Quaternion.identity));
+				spawnedWalls.Add((Tile)GameObject.Instantiate(tileSet.tiles[type], new Vector3(x, 0, z), Quaternion.identity));
 			}
 		}  else {
 			return false;	
@@ -156,8 +180,12 @@ public class MapGenerator {
 		return true;
 		
 	}
-	
-	protected bool ForceTile(float x, float z, int type) {
+
+	/**
+	 * Force spawn a tile at the given location, in other words, after you call this method,
+	 * a tile will be at the given coordinates independent of anything else in the game world
+	 */
+	protected void ForceTile(float x, float z, int type) {
 		foreach(Tile t in spawnedTiles) {
 			t.Init();
 		}
@@ -166,9 +194,9 @@ public class MapGenerator {
 		}
 
 		if(type == 0) {
-			spawnedTiles.Add((Tile)GameObject.Instantiate(tiles[type], new Vector3(x, 0, z), Quaternion.identity));
+			spawnedTiles.Add((Tile)GameObject.Instantiate(tileSet.tiles[type], new Vector3(x, 0, z), Quaternion.identity));
 		}  else if (type == 1) {
-			spawnedWalls.Add((Tile)GameObject.Instantiate(tiles[type], new Vector3(x, 3.4f, z), Quaternion.identity));
+			spawnedWalls.Add((Tile)GameObject.Instantiate(tileSet.tiles[type], new Vector3(x, 3.4f, z), Quaternion.identity));
 		}  else {
 			GameObject[] items = GameObject.FindGameObjectsWithTag("Wall");
 			for (int i = 0; i < items.Length; i++) {
@@ -176,13 +204,13 @@ public class MapGenerator {
 					GameObject.Destroy(items[i]);
 				}
 			}
-			spawnedWalls.Add((Tile)GameObject.Instantiate(tiles[type], new Vector3(x, 3.4f, z), Quaternion.identity));
+			spawnedWalls.Add((Tile)GameObject.Instantiate(tileSet.tiles[type], new Vector3(x, 3.4f, z), Quaternion.identity));
 		}
-
-		return true;
-		
 	}
 
+	/**
+	 * Clear the scene of all objects
+	 */
 	public void Clear() {
 		GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
 		GameObject[] grounds = GameObject.FindGameObjectsWithTag("Ground");
@@ -200,10 +228,16 @@ public class MapGenerator {
 	
 }
 
+public enum GeneratorTypes {
+	OVERWORLD,
+	CITY,
+	DUNGEON
+}
+
 /**
  * Throw this exception in cases where a map generator type is requested, but the requested name type does not exist
  */
-class NoSuchMapGeneratorException : System.Exception {
+/*class NoSuchMapGeneratorException : System.Exception {
 	private string invalidId;
 	private string pNames;
 	public override string Message{get{
@@ -214,4 +248,4 @@ class NoSuchMapGeneratorException : System.Exception {
 		invalidId = name;
 		pNames = possibleNames;
 	}
-}
+}*/

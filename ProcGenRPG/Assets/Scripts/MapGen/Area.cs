@@ -5,20 +5,22 @@ public class Area {
 
 	public AreaData Data;
 
+	//private TileSet tileSet;
 	private MapGenerator generator;
 
 	private Area left, right, up, down;
 
-	public Area(string mapType) {
-		Data = new AreaData(-1, "Landy Land", mapType, -1);
-		this.generator = MapGenerator.getNewGeneratorByName(mapType);
+	public Area(TileSet tiles) {
+		Data = new AreaData(-1, "Landy Land", tiles.generatorType.ToString(), -1);
+		this.generator = MapGenerator.getMapGenerator(this,tiles);
 		this.generator.SetArea(this);
 	}
 
 	public Area(AreaData data) {
-		Data = data;
-		this.generator = MapGenerator.getNewGeneratorByName(Data.generatorName);
-		this.generator.SetArea(this);
+		//saving integration, uncomment and modify to new API to properly integrate
+		/*Data = data;
+		this.generator = MapGenerator.getRandomMapgenerator(Data.generatorName);
+		this.generator.SetArea(this);*/
 	}
 
 	// Use this for initialization
