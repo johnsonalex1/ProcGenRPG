@@ -1,4 +1,0 @@
-//Maya 2013 x64 Project Definition
-
-workspace -fr "diskCache" "data";
-workspace -fr "particles" "particles";
