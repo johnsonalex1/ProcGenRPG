@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour {
 		if(other.gameObject.tag.Equals("PlayerAttack")) {
 			Attack attack = other.gameObject.GetComponent<Attack>();
 			hp -= attack.damage;
-			print (hp);
 		}
 	}
 }
