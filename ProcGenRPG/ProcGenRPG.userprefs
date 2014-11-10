@@ -1,10 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player/PlayerControl.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MapGen\CityGenerator.cs">
     <Files>
-      <File FileName="Assets/Scripts/Player/PlayerControl.cs" Line="59" Column="34" />
-      <File FileName="Assets/Scripts/Player/PlayerTravelScript.cs" Line="30" Column="1" />
-      <File FileName="Assets/Scripts/Player/Player.cs" Line="16" Column="3" />
+      <File FileName="Assets\Scripts\MapGen\Tile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\Area.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TimeBasedLighting.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameData\AreaData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameData\DataStorage.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\MapGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\GrassyPathGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\DungeonGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\TileSet.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\CityGenerator.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
