@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\Items\Item.cs" />
      <Compile Include="Assets\Scripts\Items\Weapon.cs" />
      <Compile Include="Assets\Scripts\MapGen\Area.cs" />
+     <Compile Include="Assets\Scripts\MapGen\CityGenerator.cs" />
      <Compile Include="Assets\Scripts\MapGen\DungeonGenerator.cs" />
      <Compile Include="Assets\Scripts\MapGen\GrassyPathGenerator.cs" />
      <Compile Include="Assets\Scripts\MapGen\MapGenerator.cs" />
