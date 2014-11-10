@@ -40,6 +40,10 @@ public class PlayerControl : MonoBehaviour {
 			}
 		}
 
+		if(Input.GetMouseButton(0)) {
+			playerAnim.SetTrigger("Attack1");
+		}
+
 		//rigidbody.AddForce((transform.forward + transform.right) * speed * Input.GetAxis("Vertical") * 60, ForceMode.Force);
 		//rigidbody.AddForce((transform.right - transform.forward) * speed * Input.GetAxis("Horizontal") * 50, ForceMode.Force);
 	}
