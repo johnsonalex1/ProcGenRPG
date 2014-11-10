@@ -1,10 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../Teamwork/Teamwork/Assets/Game Assets/Scripts/Puzzle_Scripts/LockBox.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MapGen\CityGenerator.cs">
     <Files>
-      <File FileName="../../Teamwork/Teamwork/Assets/Game Assets/Scripts/PlayerScripts/ThirdPersonControl.cs" Line="67" Column="77" />
-      <File FileName="../../Teamwork/Teamwork/Assets/Game Assets/Scripts/Puzzle_Scripts/LockBox.cs" Line="67" Column="48" />
-      <File FileName="../../Teamwork/Teamwork/Assets/Game Assets/Scripts/Puzzle_Scripts/Switch.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\Tile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\Area.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TimeBasedLighting.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameData\AreaData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameData\DataStorage.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\MapGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\GrassyPathGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\DungeonGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\TileSet.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapGen\CityGenerator.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
